@@ -29,6 +29,10 @@ Vth = sqrt(2*C.kb*Temp/mn);
 
 size = 1000;
 dispSize = 10;
+
+%% Publishing Documents with MATLAB
+%% Part 3
+
 %%%%%%%% Assigning each particle a random location in the x?y plane %%%%%%%
 %%%%%%%% within the region defined by the extent of the Silicon %%%%%%%%%%%
 X = rand(2,size); 

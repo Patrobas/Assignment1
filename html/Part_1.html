@@ -1,0 +1,328 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Part_1</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-02-03"><meta name="DC.source" content="Part_1.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Publishing Documents with MATLAB</a></li><li><a href="#3">Part 1</a></li><li><a href="#4">Modeling the electrons in the silicon as particles with the effective %</a></li><li><a href="#5">Thermal Velocity %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</a></li><li><a href="#6">Thermal velocity is the velocity that a particle in a system %%%%%%%%%%</a></li><li><a href="#7">would have if its kinetic energy were equal to the average energy %%%%%</a></li><li><a href="#8">of all the particles of the system. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</a></li></ul></div><pre class="codeinput"><span class="comment">% Student Name: Patrobas Adewumi</span>
+<span class="comment">% Student Number: 100963608</span>
+<span class="comment">% ELEC 4700: The Physics and Modeling of Advanced Devices and Technologies</span>
+<span class="comment">% Assignment#1: Monte-Carlo Modeling of Electron Transport</span>
+clearvars
+clearvars <span class="string">-GLOBAL</span>
+close <span class="string">all</span>
+
+<span class="keyword">global</span> C
+<span class="keyword">global</span> X Y
+    C.q_0 = 1.60217653e-19;             <span class="comment">% electron charge</span>
+    C.hb = 1.054571596e-34;             <span class="comment">% Dirac constant</span>
+    C.h = C.hb * 2 * pi;                <span class="comment">% Planck constant</span>
+    C.m_0 = 9.10938215e-31;             <span class="comment">% electron rest mass</span>
+    C.kb = 1.3806504e-23;               <span class="comment">% Boltzmann constant</span>
+    C.eps_0 = 8.854187817e-12;          <span class="comment">% vacuum permittivity</span>
+    C.mu_0 = 1.2566370614e-6;           <span class="comment">% vacuum permeability</span>
+    C.c = 299792458;                    <span class="comment">% speed of light</span>
+    C.g = 9.80665;                      <span class="comment">% metres (32.1740 ft) per s&sup2;</span>
+
+mn = 0.26*C.m_0;                        <span class="comment">% effective masss of electron</span>
+Temp = 300;                             <span class="comment">% In kelvin</span>
+runTime = 10000;                        <span class="comment">% run time in timesteps</span>
+Tmn = 0.2e-12;                          <span class="comment">% mean time between collisions</span>
+sizeX = 200e-9;                         <span class="comment">% normal size of the region in x dir (length)</span>
+sizeY = 100e-9;                         <span class="comment">% normal size of the region in y dir (width)</span>
+</pre><h2 id="2">Publishing Documents with MATLAB</h2><h2 id="3">Part 1</h2><pre class="codeinput"><span class="comment">%%%%%%%%%%%%%%%%%%%%%%%% Electron Modelling %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+</pre><h2 id="4">Modeling the electrons in the silicon as particles with the effective %</h2><pre class="codeinput"><span class="comment">%%%% mass above using a simplistic Monte-Carlo model %%%%%%%%%%%%%%%%%%%%%%</span>
+</pre><h2 id="5">Thermal Velocity %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</h2><h2 id="6">Thermal velocity is the velocity that a particle in a system %%%%%%%%%%</h2><h2 id="7">would have if its kinetic energy were equal to the average energy %%%%%</h2><h2 id="8">of all the particles of the system. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</h2><pre class="codeinput">Vth = sqrt(2*C.kb*Temp/mn);
+<span class="comment">%%%%%%%%%%%%% Setting up the semiconductor region given %%%%%%%%%%%%%%%%%%%</span>
+
+size = 1000;
+dispSize = 10;
+<span class="comment">%%%%%%%% Assigning each particle a random location in the x?y plane %%%%%%%</span>
+<span class="comment">%%%%%%%% within the region defined by the extent of the Silicon %%%%%%%%%%%</span>
+X = rand(2,size);
+Y = rand(2,size);
+
+Pos_X(1,:)= X(1,:)*sizeX;
+Pos_Y(1,:)= Y(1,:)*sizeY;
+colour = rand(1,dispSize);
+
+<span class="comment">%%%%% Assigning each particle with the fixed velocity given by vth %%%%%%%%</span>
+<span class="comment">%%%%% but give each one a random direction %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+angle(1,:) = X(2,:)*2*pi;
+Vel_X(1,:) = Vth*cos(angle(1,:));
+Vel_Y(1,:) = Vth*sin(angle(1,:));
+
+
+<span class="comment">%%%%% Set timestep of function and variable change %%%%%%%%%%%%%%%%%%%%%%%%</span>
+spacStep = 0.01*sizeY;
+dt = spacStep/Vth;
+timesteps = 1000;
+
+Vel_X(1,:) = Vel_X(1,:)*dt;
+Vel_Y(1,:) = Vel_Y(1,:)*dt;
+
+AvgTemp = zeros(1,size);
+
+<span class="comment">% prev_Pos_X(1,:) = size(Pos_X(1,:));</span>
+<span class="comment">% prev_Pos_Y(1,:) = size(Pos_Y(1,:));</span>
+
+figure (1)
+<span class="keyword">for</span> i = 1:1:timesteps
+    <span class="comment">%%%%%%%%%%% Particle Reflection %%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+    <span class="comment">%%%%%%% RHS period boundary condition check %%%%%%%%%%%%%%%</span>
+    CheckRHSPos_X = Pos_X + Vel_X &gt; 2e-7;
+    Pos_X(CheckRHSPos_X)=Pos_X(CheckRHSPos_X) + Vel_X(CheckRHSPos_X)- sizeX;
+
+    <span class="comment">%%%%%%% LHS period boundary condition check %%%%%%%%%%%%%%%</span>
+    CheckLHSPos_X = Pos_X + Vel_X &lt; 0;
+    Pos_X(CheckLHSPos_X) = Pos_X(CheckLHSPos_X) + Vel_X(CheckLHSPos_X)+ sizeX;
+
+    leftover = ~(CheckRHSPos_X | CheckLHSPos_X);
+    Pos_X(leftover) = Pos_X(leftover) + Vel_X(leftover);
+
+    <span class="comment">%%%%%%%%%%% Particle Reflection %%%%%%%%%%%%%%%%%%</span>
+    checkPos_Y = (Pos_Y + Vel_Y &gt; 1e-7 | Pos_Y + Vel_Y &lt; 0);
+    Vel_Y(checkPos_Y) = Vel_Y(checkPos_Y).*(-1);
+    Pos_Y(1,:) = Pos_Y(1,:)+Vel_Y(1,:);
+
+    <span class="comment">%%%%%%%%%%% Semiconductor Temperature calculations %%%%%%%%%%%%%%%%</span>
+    Xtmep_sum = sum((Vel_X/dt).^2);
+    Ytemp_sum = sum((Vel_Y/dt).^2);
+    calcTemp = mn*((Ytemp_sum)+(Xtmep_sum))/(2*C.kb);
+    AvgTemp(1,i) = calcTemp/size;
+
+    <span class="comment">%%%%%%%%%%% Setting up Plots %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+    prev_Pos_X(i,:) = Pos_X(1,:);
+    prev_Pos_Y(i,:) = Pos_Y(1,:);
+<span class="keyword">end</span>
+
+
+
+<span class="keyword">for</span> j = 1:1:dispSize
+
+     plot(prev_Pos_X(:,j),prev_Pos_Y(:,j),<span class="string">'color'</span>,[colour(1,j) 0 j/dispSize])
+     title(<span class="string">'Particle Trajectories'</span>)
+     xlabel (<span class="string">'Length of semiconductor region'</span>)
+     ylabel (<span class="string">'width of semiconductor region'</span>)
+     xlim([0 sizeX])
+     ylim([0 sizeY])
+     legend([<span class="string">'Temperature: '</span> num2str(sum(AvgTemp)/size)])
+     drawnow
+     hold <span class="string">on</span>
+<span class="keyword">end</span>
+
+figure(2)
+plot(linspace(1,size,size),AvgTemp);
+title(<span class="string">'Temperature vs Time Step Plot'</span>)
+xlabel(<span class="string">'Time step'</span>)
+ylabel(<span class="string">'Temperature (K)'</span>)
+
+display(<span class="string">'The thermal velocity, Vth asuming a temperature of 300K is'</span>)
+display(Vth)
+display(<span class="string">'The Mean Free Path given a mean time between collision of 0.2 ps is'</span>)
+display(Vth*Tmn)
+</pre><pre class="codeoutput">The thermal velocity, Vth asuming a temperature of 300K is
+
+Vth =
+
+   1.8702e+05
+
+The Mean Free Path given a mean time between collision of 0.2 ps is
+   3.7404e-08
+
+</pre><img vspace="5" hspace="5" src="Part_1_01.png" alt=""> <img vspace="5" hspace="5" src="Part_1_02.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+% Student Name: Patrobas Adewumi
+% Student Number: 100963608
+% ELEC 4700: The Physics and Modeling of Advanced Devices and Technologies
+% Assignment#1: Monte-Carlo Modeling of Electron Transport
+clearvars
+clearvars -GLOBAL
+close all
+
+global C
+global X Y
+    C.q_0 = 1.60217653e-19;             % electron charge
+    C.hb = 1.054571596e-34;             % Dirac constant
+    C.h = C.hb * 2 * pi;                % Planck constant
+    C.m_0 = 9.10938215e-31;             % electron rest mass
+    C.kb = 1.3806504e-23;               % Boltzmann constant
+    C.eps_0 = 8.854187817e-12;          % vacuum permittivity
+    C.mu_0 = 1.2566370614e-6;           % vacuum permeability
+    C.c = 299792458;                    % speed of light
+    C.g = 9.80665;                      % metres (32.1740 ft) per s²
+
+mn = 0.26*C.m_0;                        % effective masss of electron 
+Temp = 300;                             % In kelvin
+runTime = 10000;                        % run time in timesteps
+Tmn = 0.2e-12;                          % mean time between collisions
+sizeX = 200e-9;                         % normal size of the region in x dir (length)
+sizeY = 100e-9;                         % normal size of the region in y dir (width)
+
+
+%% Publishing Documents with MATLAB
+%% Part 1 
+
+%%%%%%%%%%%%%%%%%%%%%%%% Electron Modelling %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Modeling the electrons in the silicon as particles with the effective %
+%%%% mass above using a simplistic Monte-Carlo model %%%%%%%%%%%%%%%%%%%%%%
+
+%%% Thermal Velocity %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Thermal velocity is the velocity that a particle in a system %%%%%%%%%%
+%%% would have if its kinetic energy were equal to the average energy %%%%%
+%%% of all the particles of the system. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Vth = sqrt(2*C.kb*Temp/mn);
+%%%%%%%%%%%%% Setting up the semiconductor region given %%%%%%%%%%%%%%%%%%%
+
+size = 1000;
+dispSize = 10;
+%%%%%%%% Assigning each particle a random location in the x?y plane %%%%%%%
+%%%%%%%% within the region defined by the extent of the Silicon %%%%%%%%%%%
+X = rand(2,size); 
+Y = rand(2,size);
+
+Pos_X(1,:)= X(1,:)*sizeX;
+Pos_Y(1,:)= Y(1,:)*sizeY;
+colour = rand(1,dispSize);
+
+%%%%% Assigning each particle with the fixed velocity given by vth %%%%%%%%
+%%%%% but give each one a random direction %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+angle(1,:) = X(2,:)*2*pi;
+Vel_X(1,:) = Vth*cos(angle(1,:));
+Vel_Y(1,:) = Vth*sin(angle(1,:));
+
+
+%%%%% Set timestep of function and variable change %%%%%%%%%%%%%%%%%%%%%%%%
+spacStep = 0.01*sizeY;
+dt = spacStep/Vth;
+timesteps = 1000;
+
+Vel_X(1,:) = Vel_X(1,:)*dt;
+Vel_Y(1,:) = Vel_Y(1,:)*dt;
+
+AvgTemp = zeros(1,size);
+
+% prev_Pos_X(1,:) = size(Pos_X(1,:));
+% prev_Pos_Y(1,:) = size(Pos_Y(1,:));
+
+figure (1)
+for i = 1:1:timesteps
+    %%%%%%%%%%% Particle Reflection %%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%% RHS period boundary condition check %%%%%%%%%%%%%%%
+    CheckRHSPos_X = Pos_X + Vel_X > 2e-7;                  
+    Pos_X(CheckRHSPos_X)=Pos_X(CheckRHSPos_X) + Vel_X(CheckRHSPos_X)- sizeX;
+    
+    %%%%%%% LHS period boundary condition check %%%%%%%%%%%%%%%
+    CheckLHSPos_X = Pos_X + Vel_X < 0;                      
+    Pos_X(CheckLHSPos_X) = Pos_X(CheckLHSPos_X) + Vel_X(CheckLHSPos_X)+ sizeX;
+  
+    leftover = ~(CheckRHSPos_X | CheckLHSPos_X);
+    Pos_X(leftover) = Pos_X(leftover) + Vel_X(leftover);
+    
+    %%%%%%%%%%% Particle Reflection %%%%%%%%%%%%%%%%%%
+    checkPos_Y = (Pos_Y + Vel_Y > 1e-7 | Pos_Y + Vel_Y < 0);
+    Vel_Y(checkPos_Y) = Vel_Y(checkPos_Y).*(-1);
+    Pos_Y(1,:) = Pos_Y(1,:)+Vel_Y(1,:);
+    
+    %%%%%%%%%%% Semiconductor Temperature calculations %%%%%%%%%%%%%%%%
+    Xtmep_sum = sum((Vel_X/dt).^2);
+    Ytemp_sum = sum((Vel_Y/dt).^2);
+    calcTemp = mn*((Ytemp_sum)+(Xtmep_sum))/(2*C.kb);
+    AvgTemp(1,i) = calcTemp/size;
+   
+    %%%%%%%%%%% Setting up Plots %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    prev_Pos_X(i,:) = Pos_X(1,:);
+    prev_Pos_Y(i,:) = Pos_Y(1,:);
+end
+
+
+
+for j = 1:1:dispSize
+    
+     plot(prev_Pos_X(:,j),prev_Pos_Y(:,j),'color',[colour(1,j) 0 j/dispSize])
+     title('Particle Trajectories')
+     xlabel ('Length of semiconductor region')
+     ylabel ('width of semiconductor region')
+     xlim([0 sizeX])
+     ylim([0 sizeY])
+     legend(['Temperature: ' num2str(sum(AvgTemp)/size)])
+     drawnow
+     hold on
+end
+
+figure(2)
+plot(linspace(1,size,size),AvgTemp);
+title('Temperature vs Time Step Plot')
+xlabel('Time step')
+ylabel('Temperature (K)')
+
+display('The thermal velocity, Vth asuming a temperature of 300K is')
+display(Vth)
+display('The Mean Free Path given a mean time between collision of 0.2 ps is')
+display(Vth*Tmn)
+
+##### SOURCE END #####
+--></body></html>

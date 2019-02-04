@@ -71,6 +71,10 @@ steps = 1000;
 
 Vel_X(1,:) = Vel_X(1,:)*dt;
 Vel_Y(1,:) = Vel_Y(1,:)*dt;
+
+%% Publishing Documents with MATLAB
+%% Part 2
+
 %%%%%%%%%%%% Modeling the scattering of the electrons using an %%%%%%%%%%%%
 %%%%%% exponential scattering probability %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Pscat = 1 - exp(-(dt/Tmn));

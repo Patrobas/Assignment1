@@ -25,6 +25,10 @@ Tmn = 0.2e-12;                          % mean time between collisions
 sizeX = 200e-9;                         % normal size of the region in x dir (length)
 sizeY = 100e-9;                         % normal size of the region in y dir (width)
 
+
+%% Publishing Documents with MATLAB
+%% Part 1 
+
 %%%%%%%%%%%%%%%%%%%%%%%% Electron Modelling %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Modeling the electrons in the silicon as particles with the effective %
 %%%% mass above using a simplistic Monte-Carlo model %%%%%%%%%%%%%%%%%%%%%%
